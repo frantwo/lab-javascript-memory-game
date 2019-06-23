@@ -2,6 +2,7 @@ class MemoryGame {
     constructor(cards) {
         this.cards = cards;
         this.pickedCards = [];
+        this.pairsCardsGuessed = [];
         this.pairsClicked = 0;
         this.pairsGuessed = 0;
     }
@@ -30,6 +31,17 @@ class MemoryGame {
         } else {
             return false;
         }
+    }
+
+    IsGuessed(card) {
+        let result = this.pairsCardsGuessed.filter(
+            cardGuessed => cardGuessed == card
+        );
+        return result.length == 1;
+    }
+
+    isSelected(card) {
+        return card.children[0].classlist == "front";
     }
 
     isFinished() {

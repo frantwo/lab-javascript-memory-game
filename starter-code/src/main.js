@@ -56,7 +56,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.querySelectorAll(".card").forEach(function(card) {
         card.onclick = function(e) {
             // TODO: write some code here
-            if (memoryGame.pairsClicked < 2) {
+            if (
+                memoryGame.pairsClicked < 2 &&
+                memoryGame.pairsGuessed <= 12 &&
+                !memoryGame.IsGuessed(card.getAttribute("data-card-name")) &&
+                !memoryGame.isSelected(card)
+            ) {
                 flipCard(card);
                 memoryGame.pickedCards.push(card);
                 memoryGame.pairsClicked += 1;
@@ -73,10 +78,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         if (memoryGame.isFinished()) {
                             document.querySelector("#score").children[2].innerHTML =
                                 "YOU WIN!";
+                        } else {
+                            document.querySelector("#pairs_guessed").innerHTML =
+                                memoryGame.pairsGuessed;
+                            memoryGame.pairsClicked = 0;
+                            memoryGame.pairsCardsGuessed.push(valueCardOne);
                         }
-                        document.querySelector("#pairs_guessed").innerHTML =
-                            memoryGame.pairsGuessed;
-                        memoryGame.pairsClicked = 0;
                     } else {
                         memoryGame.pickedCards.forEach(pickedCard => {
                             var matches = document.querySelectorAll(
