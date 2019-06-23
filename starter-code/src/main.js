@@ -38,6 +38,7 @@ const flipCard = card => {
 
 document.addEventListener("DOMContentLoaded", function(event) {
     var html = "";
+    memoryGame.shuffleCards();
     memoryGame.cards.forEach(function(pic) {
         html += '<div class="card" data-card-name="' + pic.name + '">';
         html += '  <div class="back" name="' + pic.img + '"></div>';
@@ -59,6 +60,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 flipCard(card);
                 memoryGame.pickedCards.push(card);
                 memoryGame.pairsClicked += 1;
+                document.querySelector("#pairs_clicked").innerHTML =
+                    memoryGame.pairsClicked;
                 if (memoryGame.pairsClicked == 2) {
                     let valueCardOne = memoryGame.pickedCards[0].getAttribute(
                         "data-card-name"
@@ -68,8 +71,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     );
                     if (memoryGame.checkIfPair(valueCardOne, valueCardTwo)) {
                         if (memoryGame.isFinished()) {
-                            console.log("YOU WIN!");
+                            document.querySelector("#score").children[2].innerHTML =
+                                "YOU WIN!";
                         }
+                        document.querySelector("#pairs_guessed").innerHTML =
+                            memoryGame.pairsGuessed;
                         memoryGame.pairsClicked = 0;
                     } else {
                         memoryGame.pickedCards.forEach(pickedCard => {
@@ -83,6 +89,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                     if (match.children[0].classList[0] == "front") {
                                         flipCard(match);
                                         memoryGame.pairsClicked = 0;
+                                        document.querySelector("#pairs_clicked").innerHTML =
+                                            memoryGame.pairsClicked;
                                     }
                                 }, 500);
                             });
